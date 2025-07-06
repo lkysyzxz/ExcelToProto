@@ -14,6 +14,10 @@ public class ProtoFileHandler:FileHandler
     
     public ProtoFileHandler(string package, string path) : base(path)
     {
+		if (!path.EndsWith(".proto"))
+		{
+			path += ".proto";
+		}
         m_Package = package;
         m_Version = ProtoVersions.VERSION_3;
         m_Enums = new List<ProtoEnum>();
@@ -128,7 +132,7 @@ public class ProtoFileHandler:FileHandler
 
     private void WriteMessage(ProtoMessage message)
     {
-        WriteLine($"[{ProtoKeywords.MESSAGE}] {message.Name}", true);
+        WriteLine($"{ProtoKeywords.MESSAGE} {message.Name}", true);
         WriteLine("{",true);
         AddIntent();
         for (int i = 0; i < message.Enums.Count; i++)
@@ -141,11 +145,11 @@ public class ProtoFileHandler:FileHandler
             ProtoField field = message.Fields[i];
             if (field.HasProp)
             {
-                WriteLine($"{field.FieldProp} {field.FieldType} {field.FieldName};", true);
+                WriteLine($"{field.FieldProp} {field.FieldType} {field.FieldName} = {i + 1};", true);
             }
             else
             {
-                WriteLine($"{field.FieldType} {field.FieldName};", true);
+                WriteLine($"{field.FieldType} {field.FieldName} = {i + 1};", true);
             }
         }
         SubIntent();

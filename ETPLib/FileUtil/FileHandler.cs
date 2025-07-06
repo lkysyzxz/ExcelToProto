@@ -19,7 +19,13 @@ public class FileHandler
 
         if (!Directory.Exists(DirectoryPath))
         {
-            Directory.CreateDirectory(DirectoryPath);
+			if (string.IsNullOrEmpty(DirectoryPath))
+			{
+				DirectoryPath = "./";
+			}
+			else {
+				Directory.CreateDirectory(DirectoryPath);
+			}
         }
 
         if (File.Exists(path))

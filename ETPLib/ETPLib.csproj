@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Conholdate.Total" Version="25.5.0" />
+    </ItemGroup>
+
 </Project>
