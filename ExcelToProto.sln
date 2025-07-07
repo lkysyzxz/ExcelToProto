@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETPExecutor", "ETPExecutor\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETPLib", "ETPLib\ETPLib.csproj", "{B6079166-27C7-4662-AB81-5DD6E29D15DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTSLib", "RTSLib\RTSLib.csproj", "{2E265D5B-F109-449A-AF66-DA3286763ECB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +23,15 @@ Global
 		{B6079166-27C7-4662-AB81-5DD6E29D15DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6079166-27C7-4662-AB81-5DD6E29D15DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6079166-27C7-4662-AB81-5DD6E29D15DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E265D5B-F109-449A-AF66-DA3286763ECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E265D5B-F109-449A-AF66-DA3286763ECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E265D5B-F109-449A-AF66-DA3286763ECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E265D5B-F109-449A-AF66-DA3286763ECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9921D94B-493F-4C60-9686-431A3F18A728}
 	EndGlobalSection
 EndGlobal

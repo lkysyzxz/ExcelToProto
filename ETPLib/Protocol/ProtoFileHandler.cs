@@ -6,7 +6,7 @@ public class ProtoFileHandler:FileHandler
 {
     private string m_Version;
     private string m_Package;
-    private List<ProtoEnum> m_Enums;
+    private List<ProtoEnum> m_Enums;	//	Not Use
     private List<ProtoMessage> m_Messages;
 
     private Dictionary<string, ProtoEnum> m_NameToEnum;
@@ -109,7 +109,7 @@ public class ProtoFileHandler:FileHandler
 
     private void WriteSyntaxVersion()
     {
-        WriteLine($"{ProtoKeywords.SYNTAX} {m_Version};");
+        WriteLine($"{ProtoKeywords.SYNTAX} = \"{m_Version}\";");
     }
 
     private void WritePackage()
@@ -124,7 +124,7 @@ public class ProtoFileHandler:FileHandler
         AddIntent();
         for (int i = 0; i < protoEnum.EnumFields.Count; i++)
         {
-            WriteLine($"{protoEnum.EnumFields[i]} = {i},", true);
+            WriteLine($"{protoEnum.EnumFields[i]} = {i};", true);
         }
         SubIntent();
         WriteLine("};", true);

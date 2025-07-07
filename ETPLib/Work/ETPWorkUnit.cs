@@ -70,7 +70,7 @@ namespace ETPLib
 			m_ExcelHandler = new ExcelHandler(m_ExcelPath);
 
 			string packageName = GetExcelFileNameWithoutExtension(m_ExcelPath);
-			m_ProtoFileHandler = new ProtoFileHandler(packageName, m_ProtobufPath);
+			m_ProtoFileHandler = new ProtoFileHandler(packageName + "Config", m_ProtobufPath);
 
 			for(int i = 0;i<m_ExcelHandler.TableCount;i++)
 			{
@@ -132,9 +132,9 @@ namespace ETPLib
 				baseMessage.CreateField(fieldType, fieldName);
 			}
 
-			ProtoMessage arrayMessage = protoFileHandler.CreateMessage(data.Name + "_Array");
+			ProtoMessage arrayMessage = protoFileHandler.CreateMessage(data.Name + "ConfigArray");
 
-			arrayMessage.CreateField(baseMessage.Name, "Content", ProtoKeywords.FIELD_PROP_REPEATED);
+			arrayMessage.CreateField(baseMessage.Name, "Config", ProtoKeywords.FIELD_PROP_REPEATED);
 		}
 
 		public static string GetExcelFileNameWithoutExtension(string excelPath)
