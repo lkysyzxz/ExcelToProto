@@ -69,7 +69,7 @@ namespace ETPLib
 		{
 			m_ExcelHandler = new ExcelHandler(m_ExcelPath);
 
-			string packageName = GetExcelFileNameWithoutExtension(m_ExcelPath).ToLower();
+			string packageName = GetExcelFileNameWithoutExtension(m_ExcelPath);
 			m_ProtoFileHandler = new ProtoFileHandler(packageName, m_ProtobufPath);
 
 			for(int i = 0;i<m_ExcelHandler.TableCount;i++)
@@ -85,7 +85,6 @@ namespace ETPLib
 		private void ProcessTable(ProtoFileHandler protoFileHandler, ExcelData data)
 		{
 			Dictionary<string, string> fieldNameToType = new Dictionary<string, string>();
-			Dictionary<int, ProtoEnum> columnIndexToEnums = new Dictionary<int, ProtoEnum>();
 
 			ProtoMessage baseMessage = protoFileHandler.CreateMessage(data.Name);
 
@@ -101,7 +100,16 @@ namespace ETPLib
 					string enumType = fieldType.Substring("Enum_".Length);
 					enumType = enumType.Substring(0, 1).ToUpper() + enumType.Substring(1);
 					ProtoEnum protoEnum = baseMessage.CreateEnum(enumType);
-					columnIndexToEnums.Add(col, protoEnum);
+					HashSet<string> enumValues = new HashSet<string>();
+					for (int row = s_ContentRowStartIndex; row < data.Rows; row++)
+					{
+						string value = data.Get<string>(row, col);
+						if (!enumType.Contains(value))
+						{
+							protoEnum.AddEnumField(value);
+							enumValues.Add(value);
+						}
+					}
 				}
 			}
 
@@ -143,9 +151,9 @@ namespace ETPLib
 
 		public static string GetProtoOutputDirectory(string excelWorkSpace, string protobufWorkSpace, string excelPath)
 		{
-			string excelDirectory = Path.GetDirectoryName(excelPath);
-			string relativeDirectory = Path.GetRelativePath(excelDirectory, excelWorkSpace);
-			return Path.Combine(protobufWorkSpace, relativeDirectory);
+			string excelFileName = Path.GetFileName(excelPath);
+			string excelDirectory = excelPath.Remove(excelPath.IndexOf(excelFileName) - 1);
+			return excelDirectory.Replace(excelWorkSpace, protobufWorkSpace);
 		}
     }
 }
