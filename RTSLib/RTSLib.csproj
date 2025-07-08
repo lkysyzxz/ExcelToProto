@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Google.Protobuf">
       <HintPath>Libs\Google.Protobuf.dll</HintPath>
     </Reference>
