@@ -4,6 +4,11 @@ namespace RTSLib.Core;
 
 public class RTSObject
 {
+	private HashSet<string> s_MethodBlackList = new HashSet<string>()
+	{
+		"TryFormat"
+	};
+
     private Type m_Type;
 
     private object m_Target;
@@ -43,7 +48,10 @@ public class RTSObject
         foreach (var methodInfo in methodInfos)
         {
             string name = methodInfo.Name;
-            
+			if (s_MethodBlackList.Contains(name))
+			{
+				continue;
+			}
             for (int i = 0; i < methodInfo.GetParameters().Length; i++)
             {
                 name += "_" + methodInfo.GetParameters()[i].ParameterType.Name;
@@ -57,7 +65,7 @@ public class RTSObject
     {
         if (m_Methods.ContainsKey(name))
         {
-            return m_Methods[name].Invoke(m_Target, args);
+            return m_Methods[name].Invoke(args);
         }
         return null;
     }
@@ -70,4 +78,17 @@ public class RTSObject
         }
         return null;
     }
+
+	public void InvokePropertySet(string name, RTSObject value)
+	{
+		if(m_Properties.ContainsKey(name))
+		{
+			m_Properties[name].Set(value);
+		}
+	}
+
+	public bool IsEnum
+	{
+		get { return m_Type.IsEnum; }
+	}
 }

@@ -23,6 +23,6 @@ public class MethodObject
 
     public object? Invoke(params object[] args)
     {
-        return m_MethodInfo.Invoke(m_RTSObject, args);
-    }
+		return m_MethodInfo.Invoke(m_RTSObject.Target, args);
+	}
 }

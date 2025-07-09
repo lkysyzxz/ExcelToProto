@@ -13,7 +13,7 @@ using TypeInfo = System.Reflection.TypeInfo;
 
 Console.WriteLine("Hello, World!");
 
-string actorCS = File.ReadAllText("/Users/admin/Desktop/repo/csharp_projects/ExcelToProto/TestConsole/Actor.cs");
+string actorCS = File.ReadAllText("G:\\GameProjects\\UtilTools\\ExcelToProto\\TestConsole\\Actor.cs");
 
 
 // 创建语法树
@@ -52,44 +52,32 @@ using (var ms = new MemoryStream())
 		ms.Seek(0, SeekOrigin.Begin);
 		Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
 
-		RTSModel model = new RTSModel("Actor",assembly);
-		
-		TypeInfo sexType = model.GetTypeInfo("Sex");
-		var fields = sexType.GetFields();
-		object r = Convert.ChangeType(fields[1].GetValue(null), sexType);
-		
-		Type actorType = assembly.GetType("ActorConfig.Actor");
-		Type actorArrayType = assembly.GetType("ActorConfig.Actor_Array");
-		var actorArrayCreator = actorArrayType.GetConstructor(new Type[] { });
-		object actorArray = actorArrayCreator.Invoke(new object[] { });
+		RTSModel model = new RTSModel(assembly);
 
-		PropertyInfo configProperty = actorArrayType.GetProperty("Config");
+		RTSObject actorArray = model.CreateInstance("Actor_Array", new Type[] { }, new object[] { });
 
-		object config = configProperty.GetValue(actorArray);
+		RTSObject config = actorArray.InvokePropertyGet("Config");
 
-		Type configType = config.GetType();
+		object actors = new object[2];
 
-		MethodInfo addMethod = configType.GetMethod("Add", new Type[] {actorType});
+		for (int i = 0; i < 2; i++)
+		{
 
-		var actorCreator = actorType.GetConstructor(new Type[] { });
+			RTSObject actor = model.CreateInstance("Actor", new Type[] { }, new object[] { });
 
-		object actor = actorCreator.Invoke(new object[] { });
+			actor.InvokePropertySet("Id", new RTSObject(i+1));
+			actor.InvokePropertySet("Name", new RTSObject("测试角色"+i));
+			actor.InvokePropertySet("SexId", model.CreateEnumInstance("Sex", "Female"));
+			actor.InvokePropertySet("SkillType", new RTSObject("Magic"));
 
-		PropertyInfo nameInfo = actorType.GetProperty("Name");
+			config.InvokeMethod("Add_Actor", actor.Target);
+		}
 
-		nameInfo.GetSetMethod().Invoke(actor, new object[] { "WWT" });
-
-		addMethod.Invoke(config, new object[] { actor });
-
-		MethodInfo calculateSizeMethod = actorArrayType.GetMethod("CalculateSize", new Type[] { });
-		MethodInfo writeToMethod = actorArrayType.GetMethod("WriteTo", new Type[] {typeof(CodedOutputStream)});
-
-		int size = (int)calculateSizeMethod.Invoke(actorArray, new object[] { });
-
+		int size = (int)actorArray.InvokeMethod("CalculateSize", new object[] { });
 		byte[] buffer = new byte[size];
-		var codedOutput = new CodedOutputStream(buffer);
+		CodedOutputStream codedOutput = new CodedOutputStream(buffer);
 
-		writeToMethod.Invoke(actorArray, new object[] { codedOutput });
+		actorArray.InvokeMethod("WriteTo_CodedOutputStream", new object[] { codedOutput });
 
 		Actor_Array arr = Actor_Array.Parser.ParseFrom(buffer);
 

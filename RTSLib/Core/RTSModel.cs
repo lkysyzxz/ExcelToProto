@@ -10,7 +10,7 @@ public class RTSModel
     };
     private Assembly m_Assembly;
     private Dictionary<string, TypeInfo> m_NameToTypes;
-    public RTSModel(string name, Assembly assembly)
+    public RTSModel(Assembly assembly)
     {
         m_Assembly = assembly;
         m_NameToTypes = new Dictionary<string, TypeInfo>();
@@ -33,4 +33,40 @@ public class RTSModel
 
         return null;
     }
+
+	public RTSObject CreateInstance(string typeName, Type[] types, object[] parameters)
+	{
+		if (m_NameToTypes.ContainsKey(typeName))
+		{
+			TypeInfo type = m_NameToTypes[typeName];
+			ConstructorInfo constructor = type.GetConstructor(types);
+
+			if(constructor != null)
+			{
+				return new RTSObject(constructor.Invoke(parameters));
+			}
+		}
+		return null;
+	}
+
+	public RTSObject CreateEnumInstance(string typeName, string enumValue)
+	{
+		if(m_NameToTypes.ContainsKey(typeName))
+		{
+			TypeInfo type = m_NameToTypes[typeName];
+			if(type == null || !type.IsEnum)
+			{
+				return null;
+			}
+			FieldInfo[] fields = type.GetFields();
+			foreach (FieldInfo field in fields)
+			{
+				if(field.Name == enumValue)
+				{
+					return new RTSObject(Convert.ChangeType(field.GetValue(null), type));
+				}
+			}
+		}
+		return null;
+	}
 }
