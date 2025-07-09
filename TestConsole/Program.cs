@@ -7,17 +7,19 @@ using System.Runtime.Loader;
 using ActorConfig;
 using Google.Protobuf;
 using System.Runtime.CompilerServices;
+using Google.Protobuf.Reflection;
+using RTSLib.Core;
+using TypeInfo = System.Reflection.TypeInfo;
 
 Console.WriteLine("Hello, World!");
 
-string actorCS = File.ReadAllText("G:\\GameProjects\\UtilTools\\ExcelToProto\\TestConsole\\Actor.cs");
+string actorCS = File.ReadAllText("/Users/admin/Desktop/repo/csharp_projects/ExcelToProto/TestConsole/Actor.cs");
 
 
 // 创建语法树
 SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(actorCS);
 
 var protobufAssembly = Assembly.GetAssembly(typeof(IMessage));
-
 
 
 // 自动加载所有程序集引用
@@ -49,6 +51,13 @@ using (var ms = new MemoryStream())
 		
 		ms.Seek(0, SeekOrigin.Begin);
 		Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+
+		RTSModel model = new RTSModel("Actor",assembly);
+		
+		TypeInfo sexType = model.GetTypeInfo("Sex");
+		var fields = sexType.GetFields();
+		object r = Convert.ChangeType(fields[1].GetValue(null), sexType);
+		
 		Type actorType = assembly.GetType("ActorConfig.Actor");
 		Type actorArrayType = assembly.GetType("ActorConfig.Actor_Array");
 		var actorArrayCreator = actorArrayType.GetConstructor(new Type[] { });
@@ -90,14 +99,3 @@ using (var ms = new MemoryStream())
 
 
 Console.Read();
-
-
-MethodInfo[] GetExtensionMethods(Type extendedType, Assembly assembly)
-{
-	return assembly.GetTypes()
-	.Where(t => t.IsSealed && !t.IsGenericType && !t.IsNested)
-	.SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public))
-	.Where(m => m.IsDefined(typeof(ExtensionAttribute), false) &&
-	m.GetParameters()[0].ParameterType == extendedType)
-	.ToArray();
-}
