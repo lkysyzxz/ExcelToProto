@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ETPLib.Serialize
 {
-	internal class Serializer
+	public class Serializer
 	{
+		
 	}
 }

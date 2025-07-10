@@ -80,6 +80,18 @@ namespace ETPLib
 			m_ProtoFileHandler.GenerateContent();
 
 			m_ProtoFileHandler.Close();
+
+			string protoPath = m_ProtoFileHandler.FilePath;
+
+			//	TODO::
+			//	1. 调用Protoc生成对应的CSharp文件
+			//	2. 编译生成的CSharp文件，获得Assembly，生成RTSModel
+			//	3. 生成XXXArray实例
+			//	4. 获取其中的Config
+			//	5. 遍历表格每一行，生成XXX实例
+			//	6. 把实例添加进Config中
+			//	7. 把XXXArray写进Buffer
+			//	8. 把Buffer写到bytes文件中
 		}
 
 		private void ProcessTable(ProtoFileHandler protoFileHandler, ExcelData data)

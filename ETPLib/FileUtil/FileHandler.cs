@@ -9,6 +9,8 @@ public class FileHandler
     public string FileName { get; set; }
     public string Extension { get; set; }
     
+    public string FilePath { get; set; }
+    
     protected string Intent { get; set; }
 
     public FileHandler(string path)
@@ -16,6 +18,7 @@ public class FileHandler
         DirectoryPath = Path.GetDirectoryName(path);
         FileName = Path.GetFileName(path);
         Extension = Path.GetExtension(path);
+        FilePath = path;
 
         if (!Directory.Exists(DirectoryPath))
         {

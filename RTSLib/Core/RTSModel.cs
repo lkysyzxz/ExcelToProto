@@ -10,6 +10,7 @@ public class RTSModel
     };
     private Assembly m_Assembly;
     private Dictionary<string, TypeInfo> m_NameToTypes;
+    
     public RTSModel(Assembly assembly)
     {
         m_Assembly = assembly;
