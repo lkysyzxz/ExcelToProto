@@ -15,6 +15,7 @@ namespace ETPLib
 			{ExcelTypes.STRING  , ProtoTypes.STRING   },
 			{ExcelTypes.INT32   , ProtoTypes.INT32    },
 			{ExcelTypes.INT64   , ProtoTypes.INT64    },
+			{ExcelTypes.FLOAT   , ProtoTypes.FLOAT    },
 			{ExcelTypes.DOUBLE  , ProtoTypes.DOUBLE   },
 			{ExcelTypes.BOOLEAN , ProtoTypes.BOOLEAN  },
 			{ExcelTypes.BYTES   , ProtoTypes.BYTES    },

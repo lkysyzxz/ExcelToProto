@@ -60,9 +60,14 @@ namespace ETPLib.ExcelTools
 			m_Name = worksheet.Name;
 		}
 
-		public T Get<T>(int row, int column)
+		public T Get<T>(int row, int col)
 		{
-			return (T)m_RawData.Rows[row][column];
+			return (T)m_RawData.Rows[row][col];
+		}
+
+		public object Get(int row, int col)
+		{
+			return m_RawData.Rows[row][col];
 		}
 	}
 }

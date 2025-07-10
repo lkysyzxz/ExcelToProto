@@ -5,6 +5,7 @@ public static class ProtoTypes
     public static string STRING = "string";
     public static string INT32 = "int32";
     public static string INT64 = "int64";
+	public static string FLOAT = "float";
     public static string DOUBLE = "double";
     public static string BOOLEAN = "bool";
     public static string BYTES = "bytes";

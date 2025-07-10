@@ -8,16 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\RTSLib\RTSLib.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\RTSLib\Libs\Google.Protobuf.dll</HintPath>
+      <HintPath>..\ETPLib\Libs\Google.Protobuf.dll</HintPath>
     </Reference>
   </ItemGroup>
 

@@ -7,6 +7,9 @@ public class FileHandler
     private StreamWriter m_StreamWriter;
     public string DirectoryPath { get; set; }
     public string FileName { get; set; }
+
+	public string FileNameWithoutExtension { get; set; }
+
     public string Extension { get; set; }
     
     public string FilePath { get; set; }
@@ -17,6 +20,7 @@ public class FileHandler
     {
         DirectoryPath = Path.GetDirectoryName(path);
         FileName = Path.GetFileName(path);
+		FileNameWithoutExtension = Path.GetFileNameWithoutExtension(path);
         Extension = Path.GetExtension(path);
         FilePath = path;
 

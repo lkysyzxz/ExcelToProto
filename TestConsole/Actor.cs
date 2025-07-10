@@ -27,14 +27,14 @@ namespace ActorConfig {
             "CiNQcm90b2J1ZldvcmtTcGFjZS9BY3Rvci9BY3Rvci5wcm90bxILQWN0b3JD",
             "b25maWcieAoFQWN0b3ISCgoCaWQYASABKAUSDAoEbmFtZRgCIAEoCRIlCgVz",
             "ZXhJZBgDIAEoDjIWLkFjdG9yQ29uZmlnLkFjdG9yLlNleBIRCglza2lsbFR5",
-            "cGUYBCABKAkiGwoDU2V4EggKBE1hbGUQABIKCgZGZW1hbGUQASIxCgtBY3Rv",
-            "cl9BcnJheRIiCgZDb25maWcYASADKAsyEi5BY3RvckNvbmZpZy5BY3RvcmIG",
-            "cHJvdG8z"));
+            "cGUYBCABKAkiGwoDU2V4EgoKBkZlbWFsZRAAEggKBE1hbGUQASI2ChBBY3Rv",
+            "ckNvbmZpZ0FycmF5EiIKBkNvbmZpZxgBIAMoCzISLkFjdG9yQ29uZmlnLkFj",
+            "dG9yYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.Actor), global::ActorConfig.Actor.Parser, new[]{ "Id", "Name", "SexId", "SkillType" }, null, new[]{ typeof(global::ActorConfig.Actor.Types.Sex) }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.Actor_Array), global::ActorConfig.Actor_Array.Parser, new[]{ "Config" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.ActorConfigArray), global::ActorConfig.ActorConfigArray.Parser, new[]{ "Config" }, null, null, null, null)
           }));
     }
     #endregion
@@ -115,7 +115,7 @@ namespace ActorConfig {
 
     /// <summary>Field number for the "sexId" field.</summary>
     public const int SexIdFieldNumber = 3;
-    private global::ActorConfig.Actor.Types.Sex sexId_ = global::ActorConfig.Actor.Types.Sex.Male;
+    private global::ActorConfig.Actor.Types.Sex sexId_ = global::ActorConfig.Actor.Types.Sex.Female;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::ActorConfig.Actor.Types.Sex SexId {
@@ -165,7 +165,7 @@ namespace ActorConfig {
       int hash = 1;
       if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
-      if (SexId != global::ActorConfig.Actor.Types.Sex.Male) hash ^= SexId.GetHashCode();
+      if (SexId != global::ActorConfig.Actor.Types.Sex.Female) hash ^= SexId.GetHashCode();
       if (SkillType.Length != 0) hash ^= SkillType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -193,7 +193,7 @@ namespace ActorConfig {
         output.WriteRawTag(18);
         output.WriteString(Name);
       }
-      if (SexId != global::ActorConfig.Actor.Types.Sex.Male) {
+      if (SexId != global::ActorConfig.Actor.Types.Sex.Female) {
         output.WriteRawTag(24);
         output.WriteEnum((int) SexId);
       }
@@ -219,7 +219,7 @@ namespace ActorConfig {
         output.WriteRawTag(18);
         output.WriteString(Name);
       }
-      if (SexId != global::ActorConfig.Actor.Types.Sex.Male) {
+      if (SexId != global::ActorConfig.Actor.Types.Sex.Female) {
         output.WriteRawTag(24);
         output.WriteEnum((int) SexId);
       }
@@ -243,7 +243,7 @@ namespace ActorConfig {
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
-      if (SexId != global::ActorConfig.Actor.Types.Sex.Male) {
+      if (SexId != global::ActorConfig.Actor.Types.Sex.Female) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) SexId);
       }
       if (SkillType.Length != 0) {
@@ -267,7 +267,7 @@ namespace ActorConfig {
       if (other.Name.Length != 0) {
         Name = other.Name;
       }
-      if (other.SexId != global::ActorConfig.Actor.Types.Sex.Male) {
+      if (other.SexId != global::ActorConfig.Actor.Types.Sex.Female) {
         SexId = other.SexId;
       }
       if (other.SkillType.Length != 0) {
@@ -354,8 +354,8 @@ namespace ActorConfig {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static partial class Types {
       public enum Sex {
-        [pbr::OriginalName("Male")] Male = 0,
-        [pbr::OriginalName("Female")] Female = 1,
+        [pbr::OriginalName("Female")] Female = 0,
+        [pbr::OriginalName("Male")] Male = 1,
       }
 
     }
@@ -364,16 +364,16 @@ namespace ActorConfig {
   }
 
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
-  public sealed partial class Actor_Array : pb::IMessage<Actor_Array>
+  public sealed partial class ActorConfigArray : pb::IMessage<ActorConfigArray>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       , pb::IBufferMessage
   #endif
   {
-    private static readonly pb::MessageParser<Actor_Array> _parser = new pb::MessageParser<Actor_Array>(() => new Actor_Array());
+    private static readonly pb::MessageParser<ActorConfigArray> _parser = new pb::MessageParser<ActorConfigArray>(() => new ActorConfigArray());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public static pb::MessageParser<Actor_Array> Parser { get { return _parser; } }
+    public static pb::MessageParser<ActorConfigArray> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -389,7 +389,7 @@ namespace ActorConfig {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Actor_Array() {
+    public ActorConfigArray() {
       OnConstruction();
     }
 
@@ -397,15 +397,15 @@ namespace ActorConfig {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Actor_Array(Actor_Array other) : this() {
+    public ActorConfigArray(ActorConfigArray other) : this() {
       config_ = other.config_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public Actor_Array Clone() {
-      return new Actor_Array(this);
+    public ActorConfigArray Clone() {
+      return new ActorConfigArray(this);
     }
 
     /// <summary>Field number for the "Config" field.</summary>
@@ -422,12 +422,12 @@ namespace ActorConfig {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
-      return Equals(other as Actor_Array);
+      return Equals(other as ActorConfigArray);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Equals(Actor_Array other) {
+    public bool Equals(ActorConfigArray other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -492,7 +492,7 @@ namespace ActorConfig {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void MergeFrom(Actor_Array other) {
+    public void MergeFrom(ActorConfigArray other) {
       if (other == null) {
         return;
       }
