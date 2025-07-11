@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Aspose.CAD.FileFormats.Cgm.Commands.ColourModel;
 
@@ -40,7 +41,12 @@ namespace ETPLib
 
 		private string m_SerializedDataWorkSpace;
 
-        public ETPWorkUnit(string excelToolDir, string excelPath,string excelWorkSpace, string protobufWorkSpace, string serializedDataWorkSpace)
+		private string m_GameWorkSpace;
+
+		private string m_ConfigFilePath;
+
+        public ETPWorkUnit(string excelToolDir, string excelPath,string excelWorkSpace, string protobufWorkSpace, 
+	        string serializedDataWorkSpace, string gameWorkSpace, string configFilePath)
         {
 			if (!Directory.Exists(excelWorkSpace))
 			{
@@ -67,6 +73,8 @@ namespace ETPLib
 			m_ExcelWorkSpace = excelWorkSpace;
 			m_ExcelToolDir = excelToolDir;
 			m_SerializedDataWorkSpace = serializedDataWorkSpace;
+			m_GameWorkSpace = gameWorkSpace;
+			m_ConfigFilePath = configFilePath;
 
 			m_ProtobufPath = GetProtobufOutputPath(excelWorkSpace, protobufWorkSpace, excelPath);
 
@@ -114,7 +122,9 @@ namespace ETPLib
 			{
 				typeof(Google.Protobuf.IMessage).Assembly
 			});
-
+			
+			List<string> bytesDataConfigFieldNames = new List<string>();
+			List<string> bytesDataPaths = new List<string>();
 			for(int i = 0; i < m_ExcelHandler.TableCount; i++)
 			{
 				ExcelData excelData = m_ExcelHandler.GetData(i);
@@ -123,8 +133,60 @@ namespace ETPLib
 
 				string bytesDataPath = Path.Combine(serializedOutputDirectory, $"{excelData.Name}_Config_Array.bytes");
 				File.WriteAllBytes(bytesDataPath, serializeResult);
+				bytesDataPaths.Add(bytesDataPath);
+				bytesDataConfigFieldNames.Add($"{excelData.Name.ToUpper()}_CONFIG_BYTES_DATA_PATH");
 			}
 
+			List<string> bytesDataPathsInGame = CopySerializedExcelDataToGameWorkSpace(bytesDataPaths, m_GameWorkSpace);
+			
+			AppendConfigPaths(bytesDataPathsInGame, bytesDataConfigFieldNames, m_ConfigFilePath);
+		}
+
+		private void AppendConfigPaths(List<string> appendFieldNames, List<string> appendPaths, string configFilePath)
+		{
+			string configCode = File.ReadAllText(configFilePath);
+			Match match = Regex.Match(configCode, "public static string (.*) = \\\"(.*)\\\";");
+			List<string> fieldNames = new List<string>();
+			List<string> bytesDataPaths = new List<string>();
+			while (match.Success)
+			{
+				string field = match.Groups[1].Value;
+				string path = match.Groups[2].Value;
+				if (File.Exists(path))
+				{
+					fieldNames.Add(field);
+					bytesDataPaths.Add(path);
+				}
+				match = match.NextMatch();
+			}
+
+			for (int i = 0; i < appendPaths.Count; i++)
+			{
+				string path = appendPaths[i];
+				if (path.StartsWith("./") || path.StartsWith(".\\"))
+				{
+					path = path.Substring(2);
+				}
+				bytesDataPaths.Add(path);
+				fieldNames.Add(appendFieldNames[i]);
+			}
+			
+			//	TODO::
+			//	1. 输出代码
+		}
+
+		private List<string> CopySerializedExcelDataToGameWorkSpace(List<string> bytesDataPaths, string gameWorkSpace)
+		{
+			List<string> bytesDataPathsInGame = new List<string>();
+			foreach (string bytesDataPath in bytesDataPaths)
+			{
+				string fileName = Path.GetFileName(bytesDataPath);
+				string bytesDataPathInGame = Path.Combine(gameWorkSpace, fileName);
+				File.Copy(bytesDataPath, bytesDataPathInGame);
+				bytesDataPathsInGame.Add(bytesDataPathInGame);
+			}
+
+			return bytesDataPathsInGame;
 		}
 
 		private byte[] SerializeExcelData(ExcelData excelData, RTSModel protoModel, ProtoFileHandler protoFileMetaData)

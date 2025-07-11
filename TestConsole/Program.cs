@@ -4,20 +4,26 @@ using System.Runtime.Loader;
 using ActorConfig;
 using Google.Protobuf;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Google.Protobuf.Reflection;
 using TypeInfo = System.Reflection.TypeInfo;
 
 Console.WriteLine("Hello, World!");
 
-byte[] buffer = File.ReadAllBytes("G:\\GameProjects\\BuildConfig\\SerializedDataWorkSpace\\Actor\\Actor_Config_Array.bytes");
+string code = File.ReadAllText("/Users/admin/Desktop/repo/csharp_projects/ExcelToProto/TestConsole/ConfigPath.cs");
 
-ActorConfigArray array = ActorConfigArray.Parser.ParseFrom(buffer);
-
-Console.WriteLine($"Id\tName\tSex\tSkillType\n");
-for (int i = 0; i < array.Config.Count; i++)
+Regex reg = new Regex("public static string (.*) = \\\"(.*)\\\";");
+Match result = reg.Match(code);
+if (result.Success)
 {
-	Actor ac = array.Config[i];
-	Console.WriteLine($"{ac.Id}\t{ac.Name}\t{ac.SexId.ToString()}\t{ac.SkillType}");
+    while (result.Success)
+    {
+        string name = result.Groups[1].Value;
+        string path = result.Groups[2].Value;
+        Console.WriteLine(name + "  " + path);
+        result = result.NextMatch();
+    }
+    
 }
 
 Console.Read();
