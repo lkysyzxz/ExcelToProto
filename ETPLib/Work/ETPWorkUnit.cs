@@ -144,6 +144,11 @@ namespace ETPLib
 
 		private void AppendConfigPaths(List<string> appendFieldNames, List<string> appendPaths, string configFilePath)
 		{
+			string configFileDirectory = Path.GetDirectoryName(configFilePath);
+			if(!Directory.Exists(configFileDirectory))
+			{
+				Directory.CreateDirectory(configFileDirectory);
+			}
 			if (!File.Exists(configFilePath))
 			{
 				File.Create(configFilePath).Close();
