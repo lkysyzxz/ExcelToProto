@@ -139,11 +139,16 @@ namespace ETPLib
 
 			List<string> bytesDataPathsInGame = CopySerializedExcelDataToGameWorkSpace(bytesDataPaths, m_GameWorkSpace);
 			
-			AppendConfigPaths(bytesDataPathsInGame, bytesDataConfigFieldNames, m_ConfigFilePath);
+			AppendConfigPaths(bytesDataConfigFieldNames, bytesDataPathsInGame, m_ConfigFilePath);
 		}
 
 		private void AppendConfigPaths(List<string> appendFieldNames, List<string> appendPaths, string configFilePath)
 		{
+			if (!File.Exists(configFilePath))
+			{
+				File.Create(configFilePath).Close();
+			}
+
 			string configCode = File.ReadAllText(configFilePath);
 			Match match = Regex.Match(configCode, "public static string (.*) = \\\"(.*)\\\";");
 			List<string> fieldNames = new List<string>();
@@ -160,6 +165,26 @@ namespace ETPLib
 				match = match.NextMatch();
 			}
 
+			List<int> repeatedIndex = new List<int>();
+			HashSet<string> originFieldNames = new HashSet<string>();
+			for(int i = 0; i < fieldNames.Count; i++)
+			{
+				originFieldNames.Add(fieldNames[i]);
+			}
+			for (int i = 0; i < appendFieldNames.Count; i++)
+			{
+				if (originFieldNames.Contains(appendFieldNames[i]))
+				{
+					repeatedIndex.Add(i - repeatedIndex.Count);
+				}
+			}
+
+			for(int i = 0;i < repeatedIndex.Count; i++)
+			{
+				appendFieldNames.RemoveAt(repeatedIndex[i]);
+				appendPaths.RemoveAt(repeatedIndex[i]);
+			}
+
 			for (int i = 0; i < appendPaths.Count; i++)
 			{
 				string path = appendPaths[i];
@@ -171,18 +196,54 @@ namespace ETPLib
 				fieldNames.Add(appendFieldNames[i]);
 			}
 			
-			//	TODO::
-			//	1. 输出代码
+
+
+			WriteConfigFilePath(configFilePath, fieldNames, bytesDataPaths);
+			
+		}
+
+		private void WriteConfigFilePath(string configFilePath, List<string> fieldNames, List<string> bytesDataPaths)
+		{
+			string configFileDir = Path.GetDirectoryName(configFilePath);
+			if(!Directory.Exists(configFileDir))
+			{
+				Directory.CreateDirectory(configFileDir);
+			}
+			using (FileStream fs = File.Open(configFilePath, FileMode.Open))
+			{
+				using(StreamWriter sw = new StreamWriter(fs))
+				{
+					string intent = "";
+					sw.WriteLine("public static class ConfigPath");
+					sw.WriteLine("{");
+					intent += "\t";
+					
+					for(int i =  0; i < fieldNames.Count; i++)
+					{
+						string path = bytesDataPaths[i];
+						path = path.Replace('\\','/');
+						sw.WriteLine($"{intent}public static string {fieldNames[i]} = \"{path}\";");
+					}
+
+					sw.WriteLine("}");
+					sw.Close();
+				}
+				fs.Close();
+			}
 		}
 
 		private List<string> CopySerializedExcelDataToGameWorkSpace(List<string> bytesDataPaths, string gameWorkSpace)
 		{
+			if(!Directory.Exists(gameWorkSpace))
+			{
+				Directory.CreateDirectory(gameWorkSpace);
+			}
 			List<string> bytesDataPathsInGame = new List<string>();
 			foreach (string bytesDataPath in bytesDataPaths)
 			{
 				string fileName = Path.GetFileName(bytesDataPath);
 				string bytesDataPathInGame = Path.Combine(gameWorkSpace, fileName);
-				File.Copy(bytesDataPath, bytesDataPathInGame);
+				File.Copy(bytesDataPath, bytesDataPathInGame, true);
 				bytesDataPathsInGame.Add(bytesDataPathInGame);
 			}
 

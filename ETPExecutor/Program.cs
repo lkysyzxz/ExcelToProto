@@ -31,19 +31,22 @@ namespace ETPExe
 
 			string excelToolDir = ConfigurationManager.AppSettings["ExcelToolDir"].ToString();
 
+			string configFilePath = ConfigurationManager.AppSettings["ConfigFilePath"].ToString();
+
 			Console.WriteLine($"Current Directory: {currentDirectory}.");
 			Console.WriteLine($"Excel Work Space: {excelWorkSpace}.");
 			Console.WriteLine($"Protobuf Work Space: {protobufWorkSpace}.");
 			Console.WriteLine($"Serialized Data Work Space: {serializedDataWorkSpace}.");
-			Console.WriteLine($"ExcelToo Directory: {excelToolDir}");
+			Console.WriteLine($"ExcelToo Directory: {excelToolDir}.");
 			Console.WriteLine($"Game Work Space: {gameWorkSpace}.");
+			Console.WriteLine($"Config File Path: {configFilePath}.");
 
 			if (commandLine.BuildOne)
 			{
 				string excelPath = commandLine.ExcelPath;
 				Console.WriteLine($"Excel Path: {excelPath}.");
 				
-				ETPWorkUnit workUnit = new ETPWorkUnit(excelToolDir, excelPath, excelWorkSpace, protobufWorkSpace, serializedDataWorkSpace);
+				ETPWorkUnit workUnit = new ETPWorkUnit(excelToolDir, excelPath, excelWorkSpace, protobufWorkSpace, serializedDataWorkSpace, gameWorkSpace, configFilePath);
 
 				workUnit.DoWork();
 			}
