@@ -192,6 +192,10 @@ namespace ETPLib
 				{
 					path = path.Substring(2);
 				}
+				if (path.StartsWith("../") || path.StartsWith("..\\"))
+				{
+					path = path.Substring(3);
+				}
 				bytesDataPaths.Add(path);
 				fieldNames.Add(appendFieldNames[i]);
 			}
