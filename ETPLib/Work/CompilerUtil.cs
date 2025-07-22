@@ -11,13 +11,13 @@ namespace ETPLib.Work
 {
 	public static class CompilerUtil
 	{
-		public static string CompileProtoCodeToCSharp(string outFileName, string protoFilePath, string excelToolDir)
+		public static string CompileProtoCodeToCSharp(string outFileName, string protoFilePath, string excelToolDir, string generateCodeWorkSpace)
 		{
 			string protocPath = Path.Combine(excelToolDir, PathDefine.PROTOC);
 
 			ProcessStartInfo startInfo = new ProcessStartInfo();
 			startInfo.FileName = protocPath;
-			startInfo.Arguments = $"--csharp_out=./Temp {protoFilePath}";
+			startInfo.Arguments = $"--csharp_out={generateCodeWorkSpace} {protoFilePath}";
 			startInfo.UseShellExecute = false;
 			startInfo.RedirectStandardOutput = true;
 			startInfo.CreateNoWindow = false;
@@ -34,18 +34,18 @@ namespace ETPLib.Work
 
 				compileProcess.WaitForExit();
 			}
-			if(!File.Exists($"./Temp/{outFileName}.cs"))
+			if(!File.Exists($"{generateCodeWorkSpace}/{outFileName}.cs"))
 			{
 				Thread.Sleep(5000);
 			}
-			if (!File.Exists($"./Temp/{outFileName}.cs"))
+			if (!File.Exists($"{generateCodeWorkSpace}/{outFileName}.cs"))
 			{
 				Console.WriteLine($"[ERROR] Compile Proto File ({protoFilePath}) Failed.");
 				return "";
 			}
 			else
 			{
-				return File.ReadAllText($"./Temp/{outFileName}.cs");
+				return File.ReadAllText($"{generateCodeWorkSpace}/{outFileName}.cs");
 			}
 		}
 	}

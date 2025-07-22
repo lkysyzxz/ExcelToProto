@@ -29,6 +29,8 @@ namespace ETPExe
 
 			string gameWorkSpace = ConfigurationManager.AppSettings["GameWorkSpace"].ToString();
 
+			string generateCodeWorkSpace = ConfigurationManager.AppSettings["GenerateCodeWorkSpace"].ToString();
+
 			string excelToolDir = ConfigurationManager.AppSettings["ExcelToolDir"].ToString();
 
 			string configFilePath = ConfigurationManager.AppSettings["ConfigFilePath"].ToString();
@@ -39,6 +41,7 @@ namespace ETPExe
 			Console.WriteLine($"Serialized Data Work Space: {serializedDataWorkSpace}.");
 			Console.WriteLine($"ExcelToo Directory: {excelToolDir}.");
 			Console.WriteLine($"Game Work Space: {gameWorkSpace}.");
+			Console.WriteLine($"Generate Code Work Space: {generateCodeWorkSpace}.");
 			Console.WriteLine($"Config File Path: {configFilePath}.");
 
 			if (commandLine.BuildOne)
@@ -46,7 +49,7 @@ namespace ETPExe
 				string excelPath = commandLine.ExcelPath;
 				Console.WriteLine($"Excel Path: {excelPath}.");
 				
-				ETPWorkUnit workUnit = new ETPWorkUnit(excelToolDir, excelPath, excelWorkSpace, protobufWorkSpace, serializedDataWorkSpace, gameWorkSpace, configFilePath);
+				ETPWorkUnit workUnit = new ETPWorkUnit(excelToolDir, excelPath, excelWorkSpace, protobufWorkSpace, serializedDataWorkSpace, gameWorkSpace, configFilePath, generateCodeWorkSpace);
 
 				workUnit.DoWork();
 			}

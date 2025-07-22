@@ -45,8 +45,10 @@ namespace ETPLib
 
 		private string m_ConfigFilePath;
 
+		private string m_GenerateCodeWorkSpace;
+
         public ETPWorkUnit(string excelToolDir, string excelPath,string excelWorkSpace, string protobufWorkSpace, 
-	        string serializedDataWorkSpace, string gameWorkSpace, string configFilePath)
+	        string serializedDataWorkSpace, string gameWorkSpace, string configFilePath, string generateCodeWorkSpace)
         {
 			if (!Directory.Exists(excelWorkSpace))
 			{
@@ -75,7 +77,7 @@ namespace ETPLib
 			m_SerializedDataWorkSpace = serializedDataWorkSpace;
 			m_GameWorkSpace = gameWorkSpace;
 			m_ConfigFilePath = configFilePath;
-
+			m_GenerateCodeWorkSpace = generateCodeWorkSpace;
 			m_ProtobufPath = GetProtobufOutputPath(excelWorkSpace, protobufWorkSpace, excelPath);
 
 			string protobufDirectory = Path.GetDirectoryName(m_ProtobufPath);
@@ -103,12 +105,12 @@ namespace ETPLib
 
 			string protoFilePath = m_ProtoFileHandler.FilePath;
 
-			if (!Directory.Exists("./Temp"))
+			if (!Directory.Exists(m_GenerateCodeWorkSpace))
 			{
-				Directory.CreateDirectory("./Temp");
+				Directory.CreateDirectory(m_GenerateCodeWorkSpace);
 			}
 
-			string csharpCode = CompilerUtil.CompileProtoCodeToCSharp(m_ProtoFileHandler.FileNameWithoutExtension, protoFilePath, m_ExcelToolDir);
+			string csharpCode = CompilerUtil.CompileProtoCodeToCSharp(m_ProtoFileHandler.FileNameWithoutExtension, protoFilePath, m_ExcelToolDir, m_GenerateCodeWorkSpace);
 
 			string serializedOutputDirectory = GetSerializedDataOutputDirectory(m_ExcelWorkSpace, m_SerializedDataWorkSpace, m_ExcelPath);
 
