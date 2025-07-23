@@ -25,15 +25,15 @@ namespace ActorConfig {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiNQcm90b2J1ZldvcmtTcGFjZS9BY3Rvci9BY3Rvci5wcm90bxILQWN0b3JD",
-            "b25maWcieAoFQWN0b3ISCgoCaWQYASABKAUSDAoEbmFtZRgCIAEoCRIlCgVz",
-            "ZXhJZBgDIAEoDjIWLkFjdG9yQ29uZmlnLkFjdG9yLlNleBIRCglza2lsbFR5",
-            "cGUYBCABKAkiGwoDU2V4EgoKBkZlbWFsZRAAEggKBE1hbGUQASI2ChBBY3Rv",
-            "ckNvbmZpZ0FycmF5EiIKBkNvbmZpZxgBIAMoCzISLkFjdG9yQ29uZmlnLkFj",
-            "dG9yYgZwcm90bzM="));
+            "b25maWciigEKBUFjdG9yEgoKAmlkGAEgASgFEgwKBG5hbWUYAiABKAkSJQoF",
+            "c2V4SWQYAyABKA4yFi5BY3RvckNvbmZpZy5BY3Rvci5TZXgSEQoJc2tpbGxU",
+            "eXBlGAQgASgJEhAKCGJhY2twYWNrGAUgAygFIhsKA1NleBIKCgZGZW1hbGUQ",
+            "ABIICgRNYWxlEAEiNgoQQWN0b3JDb25maWdBcnJheRIiCgZDb25maWcYASAD",
+            "KAsyEi5BY3RvckNvbmZpZy5BY3RvcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.Actor), global::ActorConfig.Actor.Parser, new[]{ "Id", "Name", "SexId", "SkillType" }, null, new[]{ typeof(global::ActorConfig.Actor.Types.Sex) }, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.Actor), global::ActorConfig.Actor.Parser, new[]{ "Id", "Name", "SexId", "SkillType", "Backpack" }, null, new[]{ typeof(global::ActorConfig.Actor.Types.Sex) }, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::ActorConfig.ActorConfigArray), global::ActorConfig.ActorConfigArray.Parser, new[]{ "Config" }, null, null, null, null)
           }));
     }
@@ -80,6 +80,7 @@ namespace ActorConfig {
       name_ = other.name_;
       sexId_ = other.sexId_;
       skillType_ = other.skillType_;
+      backpack_ = other.backpack_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -137,6 +138,17 @@ namespace ActorConfig {
       }
     }
 
+    /// <summary>Field number for the "backpack" field.</summary>
+    public const int BackpackFieldNumber = 5;
+    private static readonly pb::FieldCodec<int> _repeated_backpack_codec
+        = pb::FieldCodec.ForInt32(42);
+    private readonly pbc::RepeatedField<int> backpack_ = new pbc::RepeatedField<int>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<int> Backpack {
+      get { return backpack_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -156,6 +168,7 @@ namespace ActorConfig {
       if (Name != other.Name) return false;
       if (SexId != other.SexId) return false;
       if (SkillType != other.SkillType) return false;
+      if(!backpack_.Equals(other.backpack_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -167,6 +180,7 @@ namespace ActorConfig {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (SexId != global::ActorConfig.Actor.Types.Sex.Female) hash ^= SexId.GetHashCode();
       if (SkillType.Length != 0) hash ^= SkillType.GetHashCode();
+      hash ^= backpack_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -201,6 +215,7 @@ namespace ActorConfig {
         output.WriteRawTag(34);
         output.WriteString(SkillType);
       }
+      backpack_.WriteTo(output, _repeated_backpack_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -227,6 +242,7 @@ namespace ActorConfig {
         output.WriteRawTag(34);
         output.WriteString(SkillType);
       }
+      backpack_.WriteTo(ref output, _repeated_backpack_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -249,6 +265,7 @@ namespace ActorConfig {
       if (SkillType.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(SkillType);
       }
+      size += backpack_.CalculateSize(_repeated_backpack_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -273,6 +290,7 @@ namespace ActorConfig {
       if (other.SkillType.Length != 0) {
         SkillType = other.SkillType;
       }
+      backpack_.Add(other.backpack_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -308,6 +326,11 @@ namespace ActorConfig {
             SkillType = input.ReadString();
             break;
           }
+          case 42:
+          case 40: {
+            backpack_.AddEntriesFrom(input, _repeated_backpack_codec);
+            break;
+          }
         }
       }
     #endif
@@ -341,6 +364,11 @@ namespace ActorConfig {
           }
           case 34: {
             SkillType = input.ReadString();
+            break;
+          }
+          case 42:
+          case 40: {
+            backpack_.AddEntriesFrom(ref input, _repeated_backpack_codec);
             break;
           }
         }

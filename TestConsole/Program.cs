@@ -10,20 +10,22 @@ using TypeInfo = System.Reflection.TypeInfo;
 
 Console.WriteLine("Hello, World!");
 
-string code = File.ReadAllText("/Users/admin/Desktop/repo/csharp_projects/ExcelToProto/TestConsole/ConfigPath.cs");
+ActorConfigArray act = ActorConfigArray.Parser.ParseFrom(File.ReadAllBytes("G:\\GameProjects\\UtilTools\\BuildConfig\\Assets\\Resources\\Config\\Actor_Config_Array.bytes"));
 
-Regex reg = new Regex("public static string (.*) = \\\"(.*)\\\";");
-Match result = reg.Match(code);
-if (result.Success)
-{
-    while (result.Success)
-    {
-        string name = result.Groups[1].Value;
-        string path = result.Groups[2].Value;
-        Console.WriteLine(name + "  " + path);
-        result = result.NextMatch();
-    }
+//string code = File.ReadAllText("/Users/admin/Desktop/repo/csharp_projects/ExcelToProto/TestConsole/ConfigPath.cs");
+
+//Regex reg = new Regex("public static string (.*) = \\\"(.*)\\\";");
+//Match result = reg.Match(code);
+//if (result.Success)
+//{
+//    while (result.Success)
+//    {
+//        string name = result.Groups[1].Value;
+//        string path = result.Groups[2].Value;
+//        Console.WriteLine(name + "  " + path);
+//        result = result.NextMatch();
+//    }
     
-}
+//}
 
 Console.Read();

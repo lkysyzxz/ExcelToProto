@@ -382,7 +382,117 @@ namespace ETPLib
 					else
 					{
 						RTSObject array = elementInstnace.InvokePropertyGet(propertyName);
-						
+						string data = excelData.Get<string>(row, col);
+						string[] dataArray = data.Split(";");
+						if (fieldType == ProtoTypes.STRING)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								array.InvokeMethod($"Add_{typeof(string).Name}", dataArray[i]);
+							}
+						}
+						else if (fieldType == ProtoTypes.BOOLEAN)
+						{
+							for (int i = 0; i< dataArray.Length; i++) 
+							{
+								if (bool.TryParse(dataArray[i], out bool value))
+								{
+									array.InvokeMethod($"Add_{typeof(bool).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To Bool Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.INT32)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (string.IsNullOrEmpty(dataArray[i]))
+								{
+									continue;
+								}
+								if (Int32.TryParse(dataArray[i], out Int32 value))
+								{
+									array.InvokeMethod($"Add_{typeof(Int32).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To Int32 Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.INT64)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (Int64.TryParse(dataArray[i], out Int64 value))
+								{
+									array.InvokeMethod($"Add_{typeof(Int64).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To Int64 Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.DOUBLE)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (Double.TryParse(dataArray[i], out Double value))
+								{
+									array.InvokeMethod($"Add_{typeof(Double).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To Double Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.UINT32)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (UInt32.TryParse(dataArray[i], out UInt32 value))
+								{
+									array.InvokeMethod($"Add_{typeof(UInt32).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To UInt32 Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.UINT64)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (UInt64.TryParse(dataArray[i], out UInt64 value))
+								{
+									array.InvokeMethod($"Add_{typeof(UInt64).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To UInt64 Failed.");
+								}
+							}
+						}
+						else if (fieldType == ProtoTypes.FLOAT)
+						{
+							for (int i = 0; i < dataArray.Length; i++)
+							{
+								if (float.TryParse(dataArray[i], out float value))
+								{
+									array.InvokeMethod($"Add_{typeof(float).Name}", value);
+								}
+								else
+								{
+									Console.WriteLine($"[ERROR] Parse {dataArray[i]} To float Failed.");
+								}
+							}
+						}
 					}
 				}
 
@@ -435,6 +545,7 @@ namespace ETPLib
 				{
 					fieldType = fieldType.Substring("list@".Length);
 					arrayFieldNames.Add(fieldName);
+					fieldNameToType[fieldName] = fieldType;
 				}
 			}
 
