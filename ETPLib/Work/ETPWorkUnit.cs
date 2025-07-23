@@ -141,10 +141,10 @@ namespace ETPLib
 
 			List<string> bytesDataPathsInGame = CopySerializedExcelDataToGameWorkSpace(bytesDataPaths, m_GameWorkSpace);
 			
-			AppendConfigPaths(bytesDataConfigFieldNames, bytesDataPathsInGame, m_ConfigFilePath);
+			AppendConfigPaths(bytesDataConfigFieldNames, bytesDataPathsInGame, m_GameWorkSpace, m_ConfigFilePath);
 		}
 
-		private void AppendConfigPaths(List<string> appendFieldNames, List<string> appendPaths, string configFilePath)
+		private void AppendConfigPaths(List<string> appendFieldNames, List<string> appendPaths, string gameWorkSpace, string configFilePath)
 		{
 			string configFileDirectory = Path.GetDirectoryName(configFilePath);
 			if(!Directory.Exists(configFileDirectory))
@@ -164,7 +164,8 @@ namespace ETPLib
 			{
 				string field = match.Groups[1].Value;
 				string path = match.Groups[2].Value;
-				if (File.Exists(path))
+				string fileName = Path.GetFileName(path);
+				if (File.Exists(Path.Combine(gameWorkSpace, fileName)))
 				{
 					fieldNames.Add(field);
 					bytesDataPaths.Add(path);
