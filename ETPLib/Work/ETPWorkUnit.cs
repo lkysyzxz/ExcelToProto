@@ -283,96 +283,106 @@ namespace ETPLib
 					ProtoField field = elementMessageMeta.Fields[col];
 					string fieldType = field.FieldType;
 					string fieldName = field.FieldName;
+					bool isArray = field.FieldProp == ProtoKeywords.FIELD_PROP_REPEATED;
 
 					string propertyName = Util.ToFirstUpper(fieldName);
 
-					if(fieldType == ProtoTypes.STRING)
+					if (!isArray)
 					{
-						string data = excelData.Get<string>(row, col);
-						elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-					}
-					else if(fieldType == ProtoTypes.BOOLEAN)
-					{
-						if(bool.TryParse(excelData.Get<string>(row,col), out bool data))
+						if (fieldType == ProtoTypes.STRING)
 						{
+							string data = excelData.Get<string>(row, col);
 							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
 						}
-						else
+						else if (fieldType == ProtoTypes.BOOLEAN)
 						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Bool Failed.");
+							if (bool.TryParse(excelData.Get<string>(row, col), out bool data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Bool Failed.");
+							}
+						}
+						else if (fieldType == ProtoTypes.INT32)
+						{
+							if (Int32.TryParse(excelData.Get<string>(row, col), out int data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Int32 Failed.");
+							}
+
+						}
+						else if (fieldType == ProtoTypes.INT64)
+						{
+							if (Int64.TryParse(excelData.Get<string>(row, col), out Int64 data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Int64 Failed.");
+							}
+						}
+						else if (fieldType == ProtoTypes.DOUBLE)
+						{
+							if (Double.TryParse(excelData.Get<string>(row, col), out Double data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Double Failed.");
+							}
+						}
+						else if (fieldType == ProtoTypes.UINT32)
+						{
+							if (UInt32.TryParse(excelData.Get<string>(row, col), out UInt32 data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To UInt32 Failed.");
+							}
+						}
+						else if (fieldType == ProtoTypes.UINT64)
+						{
+							if (UInt64.TryParse(excelData.Get<string>(row, col), out UInt64 data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To UInt64 Failed.");
+							}
+						}
+						else if (fieldType == ProtoTypes.FLOAT)
+						{
+							if (float.TryParse(excelData.Get<string>(row, col), out float data))
+							{
+								elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
+							}
+							else
+							{
+								Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To float Failed.");
+							}
+						}
+						else if (enumTypes.Contains(fieldType))
+						{
+							string enumValue = excelData.Get<string>(row, col);
+							elementInstnace.InvokePropertySet(propertyName,
+								protoModel.CreateEnumInstance(fieldType, enumValue));
 						}
 					}
-					else if(fieldType == ProtoTypes.INT32)
+					else
 					{
-						if(Int32.TryParse(excelData.Get<string>(row, col), out int data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Int32 Failed.");
-						}
+						RTSObject array = elementInstnace.InvokePropertyGet(propertyName);
 						
-					}
-					else if(fieldType == ProtoTypes.INT64)
-					{
-						if (Int64.TryParse(excelData.Get<string>(row, col), out Int64 data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Int64 Failed.");
-						}
-					}
-					else if(fieldType == ProtoTypes.DOUBLE)
-					{
-						if (Double.TryParse(excelData.Get<string>(row, col), out Double data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To Double Failed.");
-						}
-					}
-					else if(fieldType == ProtoTypes.UINT32)
-					{
-						if (UInt32.TryParse(excelData.Get<string>(row, col), out UInt32 data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To UInt32 Failed.");
-						}
-					}
-					else if(fieldType == ProtoTypes.UINT64)
-					{
-						if (UInt64.TryParse(excelData.Get<string>(row, col), out UInt64 data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To UInt64 Failed.");
-						}
-					}
-					else if(fieldType == ProtoTypes.FLOAT)
-					{
-						if(float.TryParse(excelData.Get<string>(row, col), out float data))
-						{
-							elementInstnace.InvokePropertySet(propertyName, new RTSObject(data));
-						}
-						else
-						{
-							Console.WriteLine($"[ERROR] Parse {excelData.Get<string>(row, col)} To float Failed.");
-						}
-					}
-					else if(enumTypes.Contains(fieldType))
-					{
-						string enumValue = excelData.Get<string>(row, col);
-						elementInstnace.InvokePropertySet(propertyName, protoModel.CreateEnumInstance(fieldType, enumValue));
 					}
 				}
 
@@ -393,6 +403,7 @@ namespace ETPLib
 
 		private void ProcessTable(ProtoFileHandler protoFileHandler, ExcelData data)
 		{
+			HashSet<string> arrayFieldNames = new HashSet<string>();
 			Dictionary<string, string> fieldNameToType = new Dictionary<string, string>();
 
 			ProtoMessage baseMessage = protoFileHandler.CreateMessage(data.Name);
@@ -420,6 +431,10 @@ namespace ETPLib
 							enumValues.Add(value);
 						}
 					}
+				}else if (fieldType.StartsWith("list@"))
+				{
+					fieldType = fieldType.Substring("list@".Length);
+					arrayFieldNames.Add(fieldName);
 				}
 			}
 
@@ -439,7 +454,14 @@ namespace ETPLib
 					fieldType = TypeMapping.MappingType(fields.Value);
 				}
 
-				baseMessage.CreateField(fieldType, fieldName);
+				if (arrayFieldNames.Contains(fieldName))
+				{
+					baseMessage.CreateField(fieldType, fieldName, ProtoKeywords.FIELD_PROP_REPEATED);
+				}
+				else
+				{
+					baseMessage.CreateField(fieldType, fieldName);
+				}
 			}
 
 			ProtoMessage arrayMessage = protoFileHandler.CreateMessage(data.Name + "ConfigArray");
