@@ -13,7 +13,7 @@ namespace ETPLib.Work
 	{
 		public static string CompileProtoCodeToCSharp(string outFileName, string protoFilePath, string excelToolDir, string generateCodeWorkSpace)
 		{
-			string protocPath = Path.Combine(excelToolDir, PathDefine.PROTOC);
+			string protocPath = Path.Combine(excelToolDir, "Exe", PathDefine.PROTOC);
 
 			ProcessStartInfo startInfo = new ProcessStartInfo();
 			startInfo.FileName = protocPath;

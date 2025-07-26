@@ -18,4 +18,10 @@
       <ProjectReference Include="..\ETPLib\ETPLib.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Exe\protoc.exe">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
