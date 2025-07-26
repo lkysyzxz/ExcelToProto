@@ -44,6 +44,10 @@ namespace ETPExe
 			Console.WriteLine($"Generate Code Work Space: {generateCodeWorkSpace}.");
 			Console.WriteLine($"Config File Path: {configFilePath}.");
 
+			PromiseDirectoryExist(excelWorkSpace);
+			PromiseDirectoryExist(protobufWorkSpace);
+			PromiseDirectoryExist(serializedDataWorkSpace);
+
 			if (commandLine.BuildOne)
 			{
 				string excelPath = commandLine.ExcelPath;
@@ -52,6 +56,14 @@ namespace ETPExe
 				ETPWorkUnit workUnit = new ETPWorkUnit(excelToolDir, excelPath, excelWorkSpace, protobufWorkSpace, serializedDataWorkSpace, gameWorkSpace, configFilePath, generateCodeWorkSpace);
 
 				workUnit.DoWork();
+			}
+		}
+
+		private static void PromiseDirectoryExist(string dirPath)
+		{
+			if(!Directory.Exists(dirPath))
+			{
+				Directory.CreateDirectory(dirPath);
 			}
 		}
 	}
