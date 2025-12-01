@@ -41,7 +41,7 @@ namespace ETPLib.ExcelTools
 		public ExcelData(Worksheet worksheet)
 		{
 			m_Rows = worksheet.Cells.MaxDataRow + 1;
-			m_Columns = worksheet.Cells.MaxColumn + 1;
+			m_Columns = worksheet.Cells.MaxDataColumn + 1;
 
 			m_RawData = new DataTable(worksheet.Name);
 			for(int i = 0;i<m_Columns;i++)
